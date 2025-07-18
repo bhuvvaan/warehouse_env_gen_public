@@ -3,14 +3,7 @@ import random
 # Define grid dimensions
 x_size = 33   # Number of rows
 y_size = 32  # Number of columns
-num_black_tiles = 240  # Fixed number of black tiles
-seed = 2815
-
-# Create two RNGs: one fixed for black, one random for blue
-def get_rngs():
-    black_rng = random.Random(seed)  # Fixed seed for black tiles
-    blue_rng = random.Random()        # Random seed for blue tiles (system time)
-    return black_rng, blue_rng
+num_black_tiles = 24  # Fixed number of black tiles
 
 def create_empty_grid(x_size, y_size):
     """Create an empty grid filled with white tiles ('.')."""
@@ -22,38 +15,54 @@ def print_grid(grid):
         print(''.join(row))
     print()
 
-def place_black_tiles_randomly(grid, num_black_tiles, rng):
-    """Randomly place a fixed number of black tiles ('@') on the grid using the provided rng."""
+def place_black_tiles_randomly(grid, num_black_tiles):
+    """Randomly place a fixed number of black tiles ('@') on the grid."""
     placed = 0
     while placed < num_black_tiles:
-        i = rng.randint(0, x_size - 1)
-        j = rng.randint(0, y_size - 1)
+        i = random.randint(0, x_size - 1)
+        j = random.randint(0, y_size - 1)
         if grid[i][j] == '.':
             grid[i][j] = '@'
             placed += 1
 
-def place_blue_tiles_adjacent_to_black(grid, rng):
+def place_blue_tiles_adjacent_to_black(grid):
     """
-    For each black tile, attempt to place a blue tile ('e') in one of its adjacent cells.
-    Each black tile gets one blue tile (if an adjacent white cell is available).
-    If any black tile cannot have a blue tile placed next to it, restart the whole process.
-    Uses the provided rng for shuffling directions.
+    For each black tile ('@'), ensure at least 2 adjacent blue tiles ('e').
+    Tries to place blue tiles in adjacent white cells ('.').
+    Returns False if any black tile can't meet the requirement.
     """
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    x_size = len(grid)
+    y_size = len(grid[0]) if grid else 0
+    base_directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
     for i in range(x_size):
         for j in range(y_size):
             if grid[i][j] == '@':
-                rng.shuffle(directions)
-                placed = False
-                for dx, dy in directions:
+                placed_count = 0
+
+                # Count existing adjacent blue tiles
+                for dx, dy in base_directions:
                     ni, nj = i + dx, j + dy
-                    if 0 <= ni < x_size and 0 <= nj < y_size and grid[ni][nj] == '.':
-                        grid[ni][nj] = 'e'
-                        placed = True
-                        break  # Place only one blue tile per black tile.
-                if not placed:
-                    return False  # Indicate failure and restart the process
-    return True  # Return True if all black tiles have adjacent blue tiles
+                    if 0 <= ni < x_size and 0 <= nj < y_size and grid[ni][nj] == 'e':
+                        placed_count += 1
+
+                # If not enough, try placing new blue tiles
+                if placed_count < 2:
+                    directions = base_directions.copy()
+                    random.shuffle(directions)
+                    for dx, dy in directions:
+                        ni, nj = i + dx, j + dy
+                        if 0 <= ni < x_size and 0 <= nj < y_size and grid[ni][nj] == '.':
+                            grid[ni][nj] = 'e'
+                            placed_count += 1
+                            if placed_count >= 2:
+                                break
+
+                # If still not enough, fail
+                if placed_count < 2:
+                    return False
+
+    return True
 
 def add_bottom_row(grid):
     """Adds a row at the bottom with the first tile as 'e' and the rest as '.'. 
@@ -106,27 +115,27 @@ def correct_layout(num_black_tiles):
     Repeatedly generate the grid until the blue tiles ('e') are fully connected.
     The process:
       1. Create an empty grid.
-      2. Place fixed black tiles randomly (with fixed seed).
-      3. Place blue tiles adjacent to the black tiles (randomized each run).
+      2. Place fixed black tiles randomly.
+      3. Place blue tiles adjacent to the black tiles.
       4. Check connectivity of blue tiles.
     """
-    black_rng, blue_rng = get_rngs()
+    attempt = 0
+    import time
+    start_time = time.time()
     while True:
-        print("Re-initializing RNGs...")
-        black_rng = random.Random(seed)  # Re-initialize every time!
-
+        attempt += 1
+        print(f"Attempt {attempt}")
         grid = create_empty_grid(x_size, y_size)
-        place_black_tiles_randomly(grid, num_black_tiles, black_rng)
-        print("Placed black tiles")
-        if not place_blue_tiles_adjacent_to_black(grid, blue_rng):
-            print("Failed to place blue tiles")
-            continue
+        place_black_tiles_randomly(grid, num_black_tiles)
+        if not place_blue_tiles_adjacent_to_black(grid):
+            #print("Restarting grid generation due to failed blue tile placement.")
+            continue  # Restart the whole process if placing blue tiles failed
         add_bottom_row(grid)
-        print("Added bottom row")
         if validate_blue_connectivity(grid):
             # Remove the last row before returning
             grid.pop()
-            
+            end_time = time.time()
+            print(f"Time taken: {end_time - start_time} seconds")
             # Add empty column on both sides
             for row in grid:
                 row.insert(0, '.')  # Add empty column on the left
@@ -143,6 +152,7 @@ def correct_layout(num_black_tiles):
                 else:
                     row.insert(0, '.')     
             return grid
+        #print("Re-validating and adjusting layout...")
 
 
 if __name__ == "__main__":
