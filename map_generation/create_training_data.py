@@ -244,21 +244,8 @@ def retry_problematic_grid(grid, grid_id=None, problem_pos=None):
             print("Success! Grid is now valid after promotion fix")
             return grid, True
         else:
-            print("Connectivity failed after promotion fix, searching for next problematic area…")
-            # Find first disconnected blue tile to use as next problem position
-            for i in range(len(grid)):
-                for j in range(len(grid[0])):
-                    if grid[i][j] == 'e':
-                        problem_pos = (i, j)
-                        break
-                if problem_pos:
-                    break
-            # Loop will attempt again
-
-    print("\n************************************************")
-    print("Failed to fix grid after all promotion attempts")
-    print("************************************************")
-    return grid, False
+            print("Connectivity failed after promotion fix – abandoning this grid.")
+            return grid, False  # Give up on this grid; outer loop will start a fresh one
 
 def correct_layout(num_black_tiles, grid_id=None):
     attempt = 0
@@ -278,23 +265,10 @@ def correct_layout(num_black_tiles, grid_id=None):
             else:
                 continue
         
-        # Check connectivity without bottom row manipulation
+        # Check connectivity
         if not validate_blue_connectivity(grid):
-            print(f"Failed to validate blue connectivity, will retry")
-            # For connectivity issues, try fixing around the first disconnected tile
-            disconnected_pos = None
-            for i in range(len(grid)):
-                for j in range(len(grid[0])):
-                    if grid[i][j] == 'e':
-                        disconnected_pos = (i, j)
-                        break
-                if disconnected_pos:
-                    break
-            
-            fixed_grid, success = retry_problematic_grid(grid, grid_id, disconnected_pos)
-            if not success:
-                continue
-            grid = fixed_grid
+            print("Failed to validate blue connectivity, starting a fresh grid…")
+            continue  # Abandon this grid and start over
         
         # Add border and walls
         for row in grid:
@@ -314,41 +288,44 @@ def generate_grid(grid_id, verbose=False):
 
     if verbose:
         tqdm.write(
-            f"[Grid {grid_id}] ✅ Generated in {end - start:.2f}s with {e_count} 'e' tiles "
             f"({len(grid)}x{len(grid[0])})"
         )
         tqdm.write(f"\nGrid {grid_id} layout:")
         print_grid(grid)
 
+    # Flatten the grid into a single string for a more compact JSON representation
+    flat_grid_str = ''.join(cell for row in grid for cell in row)
+
     return {
         "grid_id": grid_id,
-        "grid": grid,
-        "e_count": e_count,
-        "dimensions": {
-            "rows": len(grid),
-            "columns": len(grid[0])
-        }
+        "grid": flat_grid_str,
+        "e_count": e_count
     }
 
 if __name__ == "__main__":
-    os.makedirs("grids_output", exist_ok=True)
-    output_file = "grids_output/warehouse_grids.json"
+    # Ensure output directory (map_generation) exists – it does because this script is inside it.
+    output_file = os.path.join(os.path.dirname(__file__), "warehouse_grids_2.json")
 
-    NUM_GRIDS = 1
-    VERBOSE = True
+    NUM_GRIDS = 10000
+    VERBOSE = False  # Printing every grid for 10k envs is overwhelming; switch off by default
 
-    all_grids = []
     start_time = time.time()
 
-    for grid_id in tqdm(range(1, NUM_GRIDS + 1), desc="Generating grids"):
-        try:
-            result = generate_grid(grid_id, VERBOSE)
-            all_grids.append(result)
-        except Exception as e:
-            tqdm.write(f"❌ Error generating Grid {grid_id}: {e}")
-
     with open(output_file, 'w') as f:
-        json.dump({"grids": all_grids}, f, indent=2)
+        f.write('{"grids":[\n')
+
+        for grid_id in tqdm(range(8833, NUM_GRIDS + 1), desc="Generating grids"):
+            try:
+                result = generate_grid(grid_id, VERBOSE)
+                # Write comma separator after the first record
+                if grid_id > 8833:
+                    f.write(',\n')
+                json.dump(result, f)
+                f.flush()  # Ensure data is written to disk incrementally
+            except Exception as e:
+                tqdm.write(f"❌ Error generating Grid {grid_id}: {e}")
+
+        f.write(']}')  # Close the JSON array and object
 
     total_time = time.time() - start_time
     print(f"\n✅ Completed {NUM_GRIDS} grids in {total_time:.2f} seconds.")
