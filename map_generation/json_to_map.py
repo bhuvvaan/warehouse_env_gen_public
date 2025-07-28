@@ -5,6 +5,10 @@ import os
 # Create maps directory if it doesn't exist
 os.makedirs("map_generation/maps", exist_ok=True)
 
+# Specify the range of grids to process
+START_GRID = 23  # Starting grid number
+END_GRID = 41    # Ending grid number (inclusive)
+
 def process_json_line(line):
     """Process a single line from the JSON file."""
     line = line.strip()
@@ -54,23 +58,27 @@ def process_grid(grid):
     print(f"Row length: {len(grid_rows[0]) if grid_rows else 0}")
     print("-" * 50)
 
-# Read the first 10 grids from the json file
+# Read and process grids from the json file
 with open("map_generation/warehouse_grids.json", "r") as f:
     # Skip the first line if it's just a [
     first_line = f.readline().strip()
     if first_line != "[":
         f.seek(0)
     
-    # Process first 10 valid grids
-    grids_processed = 0
-    while grids_processed < 10:
+    current_grid = 0  # Keep track of current grid number
+    while True:
         line = f.readline()
         if not line:
             break
         
         grid = process_json_line(line)
         if grid is not None:
-            process_grid(grid)
-            grids_processed += 1
+            current_grid += 1
+            
+            # Only process grids within our specified range
+            if START_GRID <= current_grid <= END_GRID:
+                process_grid(grid)
+            elif current_grid > END_GRID:
+                break  # Stop once we've passed our end grid
 
-print(f"\nProcessed {grids_processed} grids successfully.") 
+print(f"\nProcessed grids {START_GRID} through {END_GRID} successfully.") 
