@@ -24,7 +24,7 @@ for map_file in map_generation/maps/kiva_large_w_mode_grid_*.map; do
         --suboptimal_bound=1 \
         --seed=00 \
         --screen=1 \
-        --simulation_time=100 \
+        --simulation_time=1000 \
         --planning_window=10 \
         --output="$output_dir" 2>&1 | tee "$output_dir/output.txt"
         
