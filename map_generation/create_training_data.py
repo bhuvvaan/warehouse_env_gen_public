@@ -306,7 +306,7 @@ if __name__ == "__main__":
     # Ensure output directory (map_generation) exists – it does because this script is inside it.
     output_file = os.path.join(os.path.dirname(__file__), "warehouse_grids_2.json")
 
-    NUM_GRIDS = 10000
+    NUM_GRIDS = 50000
     VERBOSE = False  # Printing every grid for 10k envs is overwhelming; switch off by default
 
     start_time = time.time()
@@ -314,11 +314,11 @@ if __name__ == "__main__":
     with open(output_file, 'w') as f:
         f.write('{"grids":[\n')
 
-        for grid_id in tqdm(range(8833, NUM_GRIDS + 1), desc="Generating grids"):
+        for grid_id in tqdm(range(1, NUM_GRIDS + 1), desc="Generating grids"):
             try:
                 result = generate_grid(grid_id, VERBOSE)
                 # Write comma separator after the first record
-                if grid_id > 8833:
+                if grid_id > 1:
                     f.write(',\n')
                 json.dump(result, f)
                 f.flush()  # Ensure data is written to disk incrementally
