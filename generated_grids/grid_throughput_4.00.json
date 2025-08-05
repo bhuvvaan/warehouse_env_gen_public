@@ -1,0 +1,7 @@
+{
+  "grid_number": 2,
+  "target_throughput": 4.0,
+  "grid_string": "....e.e.ee@eeeeee@e@ee.ee..ee.@e.e....@ee..eeeee...eeeee.eee.ee.eeeee......ee..e....e..ee@.ee..e.e.@.ee..e......@e.ee.e@ee.e.ee..e.e.@eeee.ee@....e.e.eee.e.e.eeee.ee..e.e.e@e@.e@.....@e@@..@@ee@@.@.e@.@@.e@@e...@e@....@.e..ee...@e@@e...e...@@e.e..e@.....e.@@...@e..@e.e....@e.ee..ee..e......@e.@@..@@@e....@...e.e@@@e@.........e@e.e..e..@@@@ee..@@@@....e@ee.....@....@@@@@..@.@@@@@.@@.@e..@..e@....e@...@e@..@.e@@....@e@e@@@.e@e.@.....e@.@@.@....@e@e@.e.@.@.@@@.@@@.......@ee@@.@.@e..@.@.@......e@..@.e.....@...e.e@...@....@e@e...@@..ee@......@.e@.@@e.@..@e@e...@e@@@..@@.......ee.@.ee.@.ee..@@@@.e@@.ee..@@.@e......e@e..@e.@.e@e.ee..e.@..@@@.e@@......@e..e...e.e..e..e..e..@.ee@@e........e.e.ee@@e@e.e.e..e.ee..@...@@....e.@.e@.@@..ee.@...@ee..@ee@..ee.....@.@ee...e.e.@e....e.e@..@.ee........@.e.@@.e..@@@e@ee.e..ee.@e@@@e@......@e@...@.@ee...@e.@@@.@@e.e.e.@e......@.ee...e.@@..@.@ee@e......@ee@......ee....e.eee..e.e.@e.e@...e.e.e........@.e.@e..@..@@ee@...e..e..@.e.....e.....@.ee..@ee.e..@...e..e.ee.......@ee@.e.e..eee@e...ee.e@@@e@e.e......ee.e.ee.@....ee..e.e.ee..e.@e@.....e..@ee...ee.ee@.ee...e..e..eeee....e.ee.....ee.e.e.e.eeeeee.eeee..e.....e..eeeee@e..ee.e....ee.ee@ee..@..",
+  "num_shelves": 240,
+  "num_endpoints": 350
+}

@@ -1,0 +1,27 @@
+{
+  "map_number": 5,
+  "target_throughput": 10.0,
+  "post_processing_results": {
+    "overall_valid": true,
+    "endpoints_connected": true,
+    "shelves_valid": true,
+    "missing_shelves_added": 8,
+    "endpoints_added": 21,
+    "isolated_endpoints_removed": 2,
+    "adjacent_shelves_removed": 0,
+    "additional_endpoints_added": 0,
+    "shelves_added_back": 8,
+    "new_endpoints_from_dfs": 0,
+    "grid_expanded": true,
+    "original_size": "33x32",
+    "expanded_size": "33x36",
+    "final_shelves": 240,
+    "final_endpoints": 376,
+    "connected_endpoints": 376,
+    "unconnected_endpoints": 0,
+    "final_empty": 550,
+    "final_workstations": 22,
+    "final_invalid_shelves": [],
+    "final_connectivity_percentage": 100.0
+  }
+}

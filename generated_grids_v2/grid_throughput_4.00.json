@@ -1,0 +1,24 @@
+{
+  "grid_number": 2,
+  "target_throughput": 4.0,
+  "continuous_analysis": {
+    "min": "-0.9968452",
+    "max": "1.0",
+    "mean": "-0.095385306",
+    "std": "0.70404077",
+    "shape": [
+      33,
+      32
+    ],
+    "total_pixels": 1056,
+    "positive_pixels": "602",
+    "negative_pixels": "454",
+    "zero_pixels": "0",
+    "positive_ratio": 0.5700757575757576,
+    "negative_ratio": 0.42992424242424243,
+    "zero_ratio": 0.0
+  },
+  "num_shelves": 240,
+  "num_endpoints": 350,
+  "num_empty": 466
+}

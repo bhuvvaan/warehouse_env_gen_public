@@ -1,0 +1,73 @@
+{
+  "grid_number": 1,
+  "target_throughput": 10,
+  "continuous_analysis": {
+    "min": "-0.9964968",
+    "max": "1.0",
+    "mean": "-0.10037415",
+    "std": "0.70155394",
+    "shape": [
+      33,
+      32
+    ],
+    "total_pixels": 1056,
+    "positive_pixels": "555",
+    "negative_pixels": "501",
+    "zero_pixels": "0",
+    "positive_ratio": 0.5255681818181818,
+    "negative_ratio": 0.4744318181818182,
+    "zero_ratio": 0.0
+  },
+  "num_shelves": 229,
+  "num_endpoints": 343,
+  "num_empty": 484,
+  "endpoint_threshold": -0.9,
+  "validation": {
+    "overall_valid": false,
+    "endpoints_connected": false,
+    "shelves_valid": false,
+    "total_shelves": 229,
+    "invalid_shelves": [
+      [
+        11,
+        24,
+        1
+      ],
+      [
+        12,
+        8,
+        1
+      ],
+      [
+        26,
+        12,
+        1
+      ],
+      [
+        30,
+        21,
+        1
+      ],
+      [
+        30,
+        30,
+        1
+      ]
+    ]
+  },
+  "post_processing": {
+    "overall_valid": false,
+    "endpoints_connected": false,
+    "shelves_valid": true,
+    "missing_shelves_added": 11,
+    "endpoints_added": 17,
+    "grid_expanded": true,
+    "original_size": "33x32",
+    "expanded_size": "33x36",
+    "final_shelves": 240,
+    "final_endpoints": 360,
+    "final_empty": 566,
+    "final_workstations": 22,
+    "final_invalid_shelves": []
+  }
+}

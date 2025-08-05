@@ -1,0 +1,76 @@
+{
+  "grid_number": 1,
+  "target_throughput": 7,
+  "continuous_analysis": {
+    "min": "-1.0",
+    "max": "1.0",
+    "mean": "-0.10201133",
+    "std": "0.7240485",
+    "shape": [
+      33,
+      32
+    ],
+    "total_pixels": 1056,
+    "positive_pixels": "409",
+    "negative_pixels": "647",
+    "zero_pixels": "0",
+    "positive_ratio": 0.3873106060606061,
+    "negative_ratio": 0.6126893939393939,
+    "zero_ratio": 0.0
+  },
+  "num_shelves": 235,
+  "num_endpoints": 344,
+  "num_empty": 477,
+  "endpoint_threshold": -0.9,
+  "validation": {
+    "overall_valid": false,
+    "endpoints_connected": false,
+    "shelves_valid": false,
+    "total_shelves": 235,
+    "invalid_shelves": [
+      [
+        0,
+        14,
+        1
+      ],
+      [
+        3,
+        18,
+        1
+      ],
+      [
+        13,
+        23,
+        1
+      ],
+      [
+        21,
+        23,
+        1
+      ]
+    ]
+  },
+  "post_processing": {
+    "overall_valid": true,
+    "endpoints_connected": true,
+    "shelves_valid": true,
+    "missing_shelves_added": 5,
+    "endpoints_added": 10,
+    "isolated_endpoints_removed": 9,
+    "adjacent_shelves_removed": 5,
+    "additional_endpoints_added": 11,
+    "shelves_added_back": 1,
+    "new_endpoints_from_dfs": 0,
+    "grid_expanded": true,
+    "original_size": "33x32",
+    "expanded_size": "33x36",
+    "final_shelves": 240,
+    "final_endpoints": 356,
+    "connected_endpoints": 356,
+    "unconnected_endpoints": 0,
+    "final_empty": 570,
+    "final_workstations": 22,
+    "final_invalid_shelves": [],
+    "final_connectivity_percentage": 100.0
+  }
+}
