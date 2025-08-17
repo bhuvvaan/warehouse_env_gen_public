@@ -6,8 +6,8 @@ import os
 os.makedirs("map_generation/maps", exist_ok=True)
 
 # Specify the range of grids to process
-START_GRID = 651  # Starting grid number
-END_GRID = 1000    # Ending grid number (inclusive)
+START_GRID = 1000  # Starting grid number
+END_GRID = 3333    # Ending grid number (inclusive)
 
 def process_json_line(line):
     """Process a single line from the JSON file."""
